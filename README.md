@@ -1,14 +1,24 @@
-# Purpose : 
-This script allows to open a bash shell in a container 
+
+# Purpose 
+`dockerenter` allows to open a bash shell in a container 
 without having to run first `docker ps` and then `docker exec -it <container id> /bin/bash`
 
-# Use : 
-dockerenter <containername>
+# Use
+`dockerenter <containername> `
 
-And bash autocompletion is available !
+
+For example : 
+
+```
+me@myserver:~/$ dockerenter mycontainer
+Entering a60ce5779859 in -w /usr/scripts ...
+containeruser@mycontainer:/usr/scripts$ ▓
+```
+
+And you can use autocompletion based on the container names in docker ps! 
 
 # Installation
-## system wide  
+## System wide  
 In this folder run : 
 
 ```
@@ -21,7 +31,7 @@ and reopen terminal or simply reload bash auto-completion:
    . /etc/bash_completion
 ```
 
-## for single user
+## Single user
 
 ```
    mkdir -p ~/bin
@@ -39,5 +49,9 @@ Finally add completion :
 ```
    cat bash_completion >> ~/.bash_completion
 ```
+
+## Customization
+You can additionally set an initial working directory when opening the container. 
+To this effect, you can copy the example in the dockerenter file. 
 
 
