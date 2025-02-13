@@ -18,13 +18,14 @@ elif [[ $nCont < 1 ]] ; then
 	exit 1
 fi
 
+# Example to specify a folder depending on the container name
 # # the following does no harm but you can remove it 
 # # or customize it to your liking if you prefer 
 # # to log in a specific directory depending on the container name
 # folderOption=""
-# if [[ $1 == *"apiplumber"* ]] ; then 
+# if [[ $1 == *"plumber"* ]] ; then 
 #      folderOption="-w /usr/scripts"
-# elif [[ $1 == *"mocoribaviz"* ]] ; then 
+# elif [[ $1 == *"shiny"* ]] ; then 
 #     folderOption="-w /srv/shiny-server/"
 # fi
 
