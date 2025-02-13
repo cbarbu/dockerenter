@@ -1,0 +1,35 @@
+#!/bin/bash
+# Use : dockerenter nomContainer (ou id)
+# Aim : allow to open a bash shell directly in a named container
+#       also benefiting from bash autocompletion
+
+allMatching=$(docker ps | grep $1 | awk '{print $1}')
+# echo $allMatching
+
+nCont=$(echo $allMatching | wc -l)
+# echo $nCont
+
+if [[ $nCont > 1 ]] ; then 
+	echo $nCont containers are matching:
+	echo $allMatching 
+	echo "entering the first one."
+elif [[ $nCont < 1 ]] ; then 
+	echo No containers are matching, try using docker ps;
+	exit 1
+fi
+
+# # the following does no harm but you can remove it 
+# # or customize it to your liking if you prefer 
+# # to log in a specific directory depending on the container name
+# folderOption=""
+# if [[ $1 == *"apiplumber"* ]] ; then 
+#      folderOption="-w /usr/scripts"
+# elif [[ $1 == *"mocoribaviz"* ]] ; then 
+#     folderOption="-w /srv/shiny-server/"
+# fi
+
+toEnter=$(echo $allMatching | awk {'print $1'})
+echo Entering $toEnter in $folderOption ...
+docker exec $folderOption -it $toEnter /bin/bash
+
+exit 0

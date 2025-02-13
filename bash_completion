@@ -1,0 +1,11 @@
+_dockerenter()
+{ 
+	local cur="${COMP_WORDS[$COMP_CWORD]}"
+	opts=$(docker ps --format='{{json .Image}}' | awk -F '/' '{print $1}' | awk -F ':' '{print $1}' | tr -d "\"" | sort | uniq)
+	COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+
+	return 0
+}
+complete -F _dockerenter dockerenter 
+
+
