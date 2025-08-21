@@ -1,6 +1,6 @@
 # dockerenter Help file
 ## Purpose 
-`dockerenter` allows to open a bash shell in a docker container 
+`dockerenter` allows to open a bash shell (or other command) in a docker container 
 *without* having to run first 
 
 `docker ps` 
@@ -10,7 +10,7 @@ and then
 `docker exec -it <container id> /bin/bash`
 
 ## Use
-`dockerenter <containername> `
+`dockerenter <containername>  [command]`
 
 
 For example : 
