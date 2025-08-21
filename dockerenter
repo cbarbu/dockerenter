@@ -1,7 +1,13 @@
 #!/bin/bash
-# Use : dockerenter nomContainer (ou id)
-# Aim : allow to open a bash shell directly in a named container
+# Use : dockerenter nomContainer (ou id) [command]
+# Aim : allow to open a bash shell (or execute other command) directly in a named container
 #       also benefiting from bash autocompletion
+
+if [[ $2 == "" ]] ; then 
+	command="/bin/bash"
+else
+	command="$2"
+fi
 
 allMatching=$(docker ps | grep $1 | awk '{print $1}')
 # echo $allMatching
@@ -18,19 +24,19 @@ elif [[ $nCont < 1 ]] ; then
 	exit 1
 fi
 
-# Example to specify a folder depending on the container name
-# # the following does no harm but you can remove it 
-# # or customize it to your liking if you prefer 
-# # to log in a specific directory depending on the container name
-# folderOption=""
-# if [[ $1 == *"plumber"* ]] ; then 
-#      folderOption="-w /usr/scripts"
-# elif [[ $1 == *"shiny"* ]] ; then 
-#     folderOption="-w /srv/shiny-server/"
-# fi
+# the following does no harm but you can remove it 
+# or customize it to your liking if you prefer 
+# to log in a specific directory depending on the container name
+folderOption=""
+if [[ $1 == *"apiplumber"* ]] ; then 
+     folderOption="-w /usr/scripts"
+elif [[ $1 == *"mocoribaviz"* ]] ; then 
+    folderOption="-w /srv/shiny-server/"
+fi
 
 toEnter=$(echo $allMatching | awk {'print $1'})
-echo Entering $toEnter in $folderOption ...
-docker exec $folderOption -it $toEnter /bin/bash
+echo Entering $toEnter in $folderOption with command $command
+
+docker exec $folderOption -it $toEnter $command
 
 exit 0
