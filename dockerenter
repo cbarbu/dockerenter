@@ -2,11 +2,15 @@
 # Use : dockerenter nomContainer (ou id) [command]
 # Aim : allow to open a bash shell (or execute other command) directly in a named container
 #       also benefiting from bash autocompletion
+# exemple with command: 
+# dockerenter mocoribaviz "sed -i 's/listen 3838/listen 3839/' /etc/shiny-server/shiny-server.conf"
 
-if [[ $2 == "" ]] ; then 
+secondInput=$2
+
+if [[ $secondInput == "" ]] ; then 
 	command="/bin/bash"
 else
-	command="$2"
+	command=$(printf 'sh -c "%s"' "${secondInput}")
 fi
 
 allMatching=$(docker ps | grep $1 | awk '{print $1}')
@@ -37,6 +41,7 @@ fi
 toEnter=$(echo $allMatching | awk {'print $1'})
 echo Entering $toEnter in $folderOption with command $command
 
-docker exec $folderOption -it $toEnter $command
+# echo docker exec $folderOption -it $toEnter $command
+eval "docker exec $folderOption -it $toEnter $command"
 
 exit 0
