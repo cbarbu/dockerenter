@@ -6,11 +6,16 @@
 # dockerenter mocoribaviz "sed -i 's/listen 3838/listen 3839/' /etc/shiny-server/shiny-server.conf"
 
 secondInput=$2
+userOption=$3
 
 if [[ $secondInput == "" ]] ; then 
 	command="/bin/bash"
 else
 	command=$(printf 'sh -c "%s"' "${secondInput}")
+fi
+
+if [[ $userOption != "" ]] ; then 
+	userOption="-u $userOption"
 fi
 
 allMatching=$(docker ps | grep $1 | awk '{print $1}')
@@ -42,6 +47,6 @@ toEnter=$(echo $allMatching | awk {'print $1'})
 echo Entering $toEnter in $folderOption with command $command
 
 # echo docker exec $folderOption -it $toEnter $command
-eval "docker exec $folderOption -it $toEnter $command"
+eval "docker exec $userOption $folderOption -it $toEnter $command"
 
 exit 0
